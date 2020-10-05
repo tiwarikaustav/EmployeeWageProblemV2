@@ -7,13 +7,28 @@ namespace EmployeeWageProblemV2
         static void Main(string[] args)
         {
             int isPresent = Attendance();
-            int dailyWage = DailyWage(isPresent);
-            if (isPresent == 0)
-                Console.WriteLine("Employee is Absent");
-            else if (isPresent == 1)
-                Console.WriteLine("Employee is present but half day");
-            else
-                Console.WriteLine("employee is present full day");
+            int dailyWage = 0;
+            int fullDayHour = 8;
+            int halfDayHour = 4;
+            int wagePerHour = 20;
+
+            switch (isPresent)
+            {
+                case (0):
+                    Console.WriteLine("Employee is Absent");
+                    dailyWage = 0;
+                    break;
+                case (1):
+                    Console.WriteLine("Employee is present but half day");
+                    dailyWage = halfDayHour * wagePerHour;
+                    break;
+                case (2):
+                    Console.WriteLine("Employee is present full day");
+                    dailyWage = fullDayHour * wagePerHour;
+                    break;
+                default:
+                    break;
+            }
 
             Console.WriteLine("Daily wage of the employee is: {0}", dailyWage);
         }
@@ -23,26 +38,6 @@ namespace EmployeeWageProblemV2
         {
             Random randObj = new Random();
             return randObj.Next(0, 3);
-        }
-
-        //Computes daily wage of employee if he is absent, half day present or full day present
-        static int DailyWage(int flag)
-        {
-            int fullDayHour = 8;
-            int halfDayHour = 4;
-            int wagePerHour = 20;
-            if (flag == 0)
-            {
-                return 0;
-            }
-            else if (flag == 1)
-            {
-                return halfDayHour * wagePerHour;
-            }
-            else
-            {
-                return fullDayHour * wagePerHour;
-            }
         }
 
     }
