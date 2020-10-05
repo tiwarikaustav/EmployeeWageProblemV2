@@ -4,15 +4,13 @@ namespace EmployeeWageProblemV2
 {
     class Program
     {
-        const int MAX_WORK_HOURS = 100;
-        const int MAX_WORK_DAYS = 20;
-        const int WAGE_PER_HOUR = 20;
         const int ABSENT = 0;
         const int HALF_DAY = 1;
         const int FULL_DAY = 2;
         static void Main(string[] args)
         {
-            CalculateEmpWage();
+            CalculateEmpWage("Oracle", 20, 100, 20);
+            CalculateEmpWage("Capgemini", 25, 120, 28);
         }
 
         //Gives random numbers 0/1/2, 0=Absent, 1=Half day present, 2=Full day present
@@ -22,10 +20,13 @@ namespace EmployeeWageProblemV2
             return randObj.Next(0, 3);
         }
 
-        static void CalculateEmpWage()
+        static void CalculateEmpWage(string company, int dailyWage, int maxWorkHours, int maxWorkDays)
         {
+            Console.WriteLine("\n**************************");
+            Console.WriteLine("Wage Computation for the company: "+company);
+            Console.WriteLine("**************************");
             int dailyHours = 0; int totalWorkHours = 0; int totalEmpWage = 0;
-            for (int currentDay = 1; currentDay <= MAX_WORK_DAYS; currentDay++)
+            for (int currentDay = 1; currentDay <= maxWorkDays; currentDay++)
             {
                 switch (Attendance())
                 {
@@ -41,13 +42,13 @@ namespace EmployeeWageProblemV2
                     default:
                         break;
                 }
-                if (totalWorkHours + dailyHours >= MAX_WORK_HOURS)
+                if (totalWorkHours + dailyHours >= maxWorkHours)
                     dailyHours = 0;
                 totalWorkHours += dailyHours;
                 Console.WriteLine("For Day" + currentDay + " working hours are " + dailyHours);
             }
             Console.WriteLine("Total payable hours for the month are " + totalWorkHours);
-            totalEmpWage = totalWorkHours * WAGE_PER_HOUR;
+            totalEmpWage = totalWorkHours * dailyWage;
             Console.WriteLine("Amount payable to Employee is " + totalEmpWage);
         }
 
