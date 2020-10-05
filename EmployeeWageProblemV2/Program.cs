@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace EmployeeWageProblemV2
 {
@@ -7,10 +7,15 @@ namespace EmployeeWageProblemV2
         static void Main(string[] args)
         {
             int isPresent = Attendance();
-            if(isPresent == 0)
+            int fullDayHour = 8;
+            int wagePerHour = 20;
+            int dailyWage = DailyWage(fullDayHour, wagePerHour);
+            if (isPresent == 0)
                 Console.WriteLine("Employee is Absent");
             else
                 Console.WriteLine("Employee is Present");
+
+            Console.WriteLine("Daily wage of the employee is: {0}", dailyWage);
         }
 
         //Gives random numbers 0/1, 0=Absent, 1=Present
@@ -18,6 +23,11 @@ namespace EmployeeWageProblemV2
         {
             Random randObj = new Random();
             return randObj.Next(0, 2);
+        }
+
+        static int DailyWage(int fullDayHour, int wagePerHour)
+        {
+            return fullDayHour * wagePerHour;
         }
     }
 }
