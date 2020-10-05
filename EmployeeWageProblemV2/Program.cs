@@ -4,51 +4,15 @@ namespace EmployeeWageProblemV2
 {
     class Program
     {
+        const int MAX_WORK_HOURS = 100;
+        const int MAX_WORK_DAYS = 20;
+        const int WAGE_PER_HOUR = 20;
+        const int ABSENT = 0;
+        const int HALF_DAY = 1;
+        const int FULL_DAY = 2;
         static void Main(string[] args)
         {
-            int isPresent = 0;
-            int dailyWage = 0;
-            int fullDayHour = 8;
-            int halfDayHour = 4;
-            int wagePerHour = 20;
-            int workDaysMonthly = 0;
-            int maxWorkDaysMonthly = 20;
-            int workHoursMonthly = 0;
-            int maxWorkHoursMonthly = 100;
-            int wageForMonth = 0;
-            
-            //Monthly wage is added until a condition of max working hours or max working days is met
-            while(workDaysMonthly < maxWorkDaysMonthly && workHoursMonthly < maxWorkHoursMonthly)
-            {
-                isPresent = Attendance();
-                switch (isPresent)
-                {
-                    case (0):
-                        Console.WriteLine("Employee is Absent");
-                        dailyWage = 0;
-                        wageForMonth += dailyWage;
-                        break;
-                    case (1):
-                        Console.WriteLine("Employee is present but half day");
-                        dailyWage = halfDayHour * wagePerHour;
-                        wageForMonth += dailyWage;
-                        workHoursMonthly += 4;
-                        workDaysMonthly++;
-                        break;
-                    case (2):
-                        Console.WriteLine("Employee is present full day");
-                        dailyWage = fullDayHour * wagePerHour;
-                        wageForMonth += dailyWage;
-                        workHoursMonthly += 8;
-                        workDaysMonthly++;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            
-
-            Console.WriteLine("Monthly wage of the employee is: {0}", wageForMonth);
+            CalculateEmpWage();
         }
 
         //Gives random numbers 0/1/2, 0=Absent, 1=Half day present, 2=Full day present
@@ -56,6 +20,35 @@ namespace EmployeeWageProblemV2
         {
             Random randObj = new Random();
             return randObj.Next(0, 3);
+        }
+
+        static void CalculateEmpWage()
+        {
+            int dailyHours = 0; int totalWorkHours = 0; int totalEmpWage = 0;
+            for (int currentDay = 1; currentDay <= MAX_WORK_DAYS; currentDay++)
+            {
+                switch (Attendance())
+                {
+                    case ABSENT:
+                        dailyHours = 0;
+                        break;
+                    case HALF_DAY:
+                        dailyHours = 4;
+                        break;
+                    case FULL_DAY:
+                        dailyHours = 8;
+                        break;
+                    default:
+                        break;
+                }
+                if (totalWorkHours + dailyHours >= MAX_WORK_HOURS)
+                    dailyHours = 0;
+                totalWorkHours += dailyHours;
+                Console.WriteLine("For Day" + currentDay + " working hours are " + dailyHours);
+            }
+            Console.WriteLine("Total payable hours for the month are " + totalWorkHours);
+            totalEmpWage = totalWorkHours * WAGE_PER_HOUR;
+            Console.WriteLine("Amount payable to Employee is " + totalEmpWage);
         }
 
     }
