@@ -11,11 +11,14 @@ namespace EmployeeWageProblemV2
             int fullDayHour = 8;
             int halfDayHour = 4;
             int wagePerHour = 20;
-            int daysInMonth = 20;
+            int workDaysMonthly = 0;
+            int maxWorkDaysMonthly = 20;
+            int workHoursMonthly = 0;
+            int maxWorkHoursMonthly = 100;
             int wageForMonth = 0;
-
-            //calculating daily wages and summing up for 20 iterations i.e. 20 days
-            for(int dayCount = 1; dayCount <= daysInMonth; dayCount++)
+            
+            //Monthly wage is added until a condition of max working hours or max working days is met
+            while(workDaysMonthly < maxWorkDaysMonthly && workHoursMonthly < maxWorkHoursMonthly)
             {
                 isPresent = Attendance();
                 switch (isPresent)
@@ -29,11 +32,15 @@ namespace EmployeeWageProblemV2
                         Console.WriteLine("Employee is present but half day");
                         dailyWage = halfDayHour * wagePerHour;
                         wageForMonth += dailyWage;
+                        workHoursMonthly += 4;
+                        workDaysMonthly++;
                         break;
                     case (2):
                         Console.WriteLine("Employee is present full day");
                         dailyWage = fullDayHour * wagePerHour;
                         wageForMonth += dailyWage;
+                        workHoursMonthly += 8;
+                        workDaysMonthly++;
                         break;
                     default:
                         break;
