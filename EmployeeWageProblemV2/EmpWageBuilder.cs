@@ -6,21 +6,29 @@ namespace EmployeeWageProblemV2
 {
     class EmpWageBuilder
     {
-        private string companyName;
-        private int dailyWage;
-        private int maxWorkHours;
-        private int maxWorkDays;
-        private int totalWorkHours = 0;
-        public int totalEmpWage = 0;
+        private int numOfCompany = 0;
+        private CompanyEmpWage[] companyEmpWageArray;
 
-        //constructor for the class
-        public EmpWageBuilder(string company, int dailyWage, int maxWorkHours, int maxWorkDays)
+        public EmpWageBuilder()
         {
-            this.companyName = company;
-            this.dailyWage = dailyWage;
-            this.maxWorkHours = maxWorkHours;
-            this.maxWorkDays = maxWorkDays;
+            this.companyEmpWageArray = new CompanyEmpWage[10];
         }
+
+        public void addCompanyEmpWage(string company, int wagePerHour, int maxWorkHour, int maxWorkDays)
+        {
+            companyEmpWageArray[this.numOfCompany] = new CompanyEmpWage(company, wagePerHour, maxWorkHour, maxWorkDays);
+            numOfCompany++;
+        }
+
+        public void CalculateEmpWage()
+        {
+            for(int i=0; i < numOfCompany; i++)
+            {
+                companyEmpWageArray[i].setTotalEmpWage(this.CalculateEmpWage(companyEmpWageArray[i]));
+                Console.WriteLine(this.companyEmpWageArray[i].toString());
+            }
+        }
+
         static int Attendance()
         {
             Random randObj = new Random();
@@ -29,15 +37,12 @@ namespace EmployeeWageProblemV2
         public const int ABSENT = 0;
         public const int HALF_DAY = 1;
         public const int FULL_DAY = 2;
-        public void CalculateEmpWage()
+        private int CalculateEmpWage(CompanyEmpWage companyEmpWage)
         {
-            Console.WriteLine("\n************************");
-            Console.WriteLine("Wage Computation for the company: " + this.companyName);
-            Console.WriteLine("************************");
             int dailyHours = 0;
             int totalWorkHours = 0;
             int totalEmpWage = 0;
-            for (int currentDay = 1; currentDay <= this.maxWorkDays; currentDay++)
+            for (int currentDay = 1; currentDay <= companyEmpWage.maxWorkDays; currentDay++)
             {
 
                 switch (Attendance())
@@ -55,13 +60,14 @@ namespace EmployeeWageProblemV2
                         break;
                 }
                 Console.WriteLine("For day "+currentDay+" working hours are "+dailyHours);
-                if (totalWorkHours + dailyHours > this.maxWorkHours)
+                if (totalWorkHours + dailyHours > companyEmpWage.maxWorkHour)
                     dailyHours = 0;
                 totalWorkHours += dailyHours;
             }
             Console.WriteLine("Total payable hours for the month are: " + totalWorkHours);
-            totalEmpWage = totalWorkHours * this.dailyWage;
-            Console.WriteLine("Amount payable to Employee is: " + totalEmpWage);
+            totalEmpWage = totalWorkHours * companyEmpWage.wagePerHour;
+            //Console.WriteLine("Amount payable to Employee is: " + totalEmpWage);
+            return totalEmpWage;
         }
 
     }

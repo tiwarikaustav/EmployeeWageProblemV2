@@ -6,10 +6,10 @@ namespace EmployeeWageProblemV2
     {      
         static void Main(string[] args)
         {
-            EmpWageBuilder Capgemini = new EmpWageBuilder("Capgemini", 20, 100, 20);
-            EmpWageBuilder Cadence = new EmpWageBuilder("Cadence", 25, 120, 28);
-            Capgemini.CalculateEmpWage();
-            Cadence.CalculateEmpWage();
+            EmpWageBuilder empWageBuilder = new EmpWageBuilder();
+            empWageBuilder.addCompanyEmpWage("Capgemini", 20, 100, 20);
+            empWageBuilder.addCompanyEmpWage("Cadence", 25, 120, 28);
+            empWageBuilder.CalculateEmpWage();
         }
 
     }
